@@ -1,0 +1,7 @@
+
+# BigQuery data source
+bigquery:
+  project_id: lissen-datalake-prod
+  dataset_id: analytics
+  table_id: user_journeys
+  view_id: user_journeys_v2

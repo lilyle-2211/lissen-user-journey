@@ -1,32 +1,22 @@
-.PHONY: help build deploy run terraform clean
-
-# Project configuration
-PROJECT_ID := lily-demo-ml
-REGION := us-central1
-IMAGE_URI := $(REGION)-docker.pkg.dev/$(PROJECT_ID)/churn-pipeline/churn-trainer:latest
+.PHONY: help run clean lint
 
 help:
 	@echo "Available commands:"
-	@echo "  make build      - Build and push Docker image to Artifact Registry"
-	@echo "  make deploy     - Deploy training job to Vertex AI"
-	@echo "  make run        - Run training locally with uv"
-	@echo "  make terraform  - Apply Terraform infrastructure"
-
-build:
-	@echo "Building Docker image: $(IMAGE_URI)"
-	gcloud builds submit --config docker/cloudbuild.yaml --project $(PROJECT_ID)
-	@echo "Image built and pushed"
-
-deploy:
-	@echo "Deploying to Vertex AI..."
-	uv run python pipeline/deploy.py --project-id=$(PROJECT_ID) --region=$(REGION)
-	@echo "Pipeline deployed to Vertex AI"
+	@echo "  make run              - Run the Streamlit application"
+	@echo "  make clean            - Clean up temporary files"
+	@echo "  make lint             - Run pre-commit hooks to lint and format code"
 
 run:
-	@echo "Running training locally..."
-	cd trainer && uv run python main.py
+	@echo "Running Streamlit application..."
+	uv run streamlit run onboarding/streamlit_app.py
 
-terraform:
-	@echo "Applying Terraform configuration..."
-	cd terraform && terraform init && terraform apply
-	@echo "Infrastructure deployed"
+lint:
+	@echo "Running pre-commit hooks..."
+	pre-commit run --all-files
+	@echo "Linting complete"
+
+clean:
+	@echo "Cleaning up temporary files..."
+	find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+	find . -type f -name "*.pyc" -delete
+	@echo "Cleanup complete"

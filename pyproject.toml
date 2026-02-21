@@ -1,25 +1,23 @@
 [project]
-name = "churn-demo"
+name = "lissen-user-journey"
 version = "0.1.0"
-description = "Add your description here"
+description = "User Journey Analysis"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 dependencies = [
-    "xgboost",
-    "optuna",
-    "pandas",
-    "scikit-learn",
-    "joblib",
-    "numpy",
-    "pydantic>=2.0",
-    "pyyaml",
-    "google-cloud-bigquery",
-    "db-dtypes",
-    "kfp",
-    "google-cloud-aiplatform",
-    "pre-commit",
-    "pytest>=7.0",
-    "pytest-cov>=4.0",
+  "google-cloud-bigquery",
+  "pandas",
+  "pyyaml",
+  "streamlit",
+  "plotly",
+  "db-dtypes"
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=7.0",
+  "pytest-cov>=4.0",
+  "pre-commit"
 ]
 
 [tool.black]
@@ -30,16 +28,10 @@ exclude = '''
     \.git
   | \.venv
   | __pycache__
-  | \.terraform
 )/
 '''
 
 [tool.isort]
 profile = "black"
 line_length = 100
-skip_glob = [".venv/*", "__pycache__/*", ".terraform/*"]
-
-[tool.flake8]
-max-line-length = 100
-extend-ignore = ["E203", "W503"]
-exclude = [".venv", "__pycache__", ".terraform"]
+skip_glob = [".venv/*", "__pycache__/*"]

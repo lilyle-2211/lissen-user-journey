@@ -1,64 +1,34 @@
-# Churn Prediction Demo
+# Lissen User Journey Analysis
 
-This project demonstrates a production-ready pipeline for churn prediction using Google Cloud Platform (Vertex AI, BigQuery, Artifact Registry, GCS).
+This project analyzes the user onboarding funnel for the Lissen app using data from BigQuery and visualizes the results with Streamlit.
 
 ## Features
-- Data loading and preprocessing from BigQuery
-- Time-ordered train/val/test split
-- Hyperparameter tuning with Optuna
-- Model training with XGBoost
-- Evaluation metrics: PR-AUC, ROC-AUC, Precision@k
-- Terraform for infras
-- Makefile automation
+- Data loading from BigQuery
+- Onboarding funnel visualization
+- Breakdown of user progression and drop-off
+
+### `user_journey_v2.sql` Logic adjustments
+
+The onboarding analysis uses `user_journey_v2.sql` query, modified from `user_journey` view. The query no longer filters exclusively for sessions that have visited an `/access/%` page.
+```sql
+    -- AND event_name LIKE '/access/%'
+```
 
 ## Directory Structure
 ```
-churn-demo/
+lissen-user-journey/
 ├── README.md
 ├── pyproject.toml
 ├── Makefile
-├── docker/
-│   ├── Dockerfile
-│   ├── build_image.sh
-│   └── cloudbuild.yaml
-├── eda/
-│   ├── README.md
-│
-├── pipeline/
-│   ├── deploy.py
-│
-├── sql/
-│   └── input.sql
-├── terraform/
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│
-├── tests/
-│   ├── test_data_preprocessing.py
-│   ├── test_model_training.py
-│
-└── trainer/
-   ├── data_preprocessing.py
-   ├── data_loader.py
-   ├── main.py
-   ├── model_training.py
-   ├── model_evaluation.py
-   └── config.yaml
+├── onboarding/
+│   ├── streamlit_app.py
+│   ├── data_loader.py
+│   ├── user_journey_v2.sql
+│   └── config.yaml
+└── uv.lock
 ```
-
-
 
 ## Usage
 
-- Run the pipeline locally: `make run`
-- Run tests: `make test`
-- Build Docker image: `make build`
-- Deploy pipeline: `make deploy`
-- Provision infrastructure: `make terraform`
-
-
-
-
-## eda
-- Example notebooks for model evaluation and metrics are provided.
+- Install dependencies: `uv sync`
+- Run the Streamlit app: `make run`
