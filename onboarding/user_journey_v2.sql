@@ -1,6 +1,4 @@
--- User Journey Query - Optimized Version
--- Identifies sessions that visited access pages and tracks all events in those sessions
--- Includes purchase conversion tracking and user identity resolution
+-- User Journey Query V2
 
 WITH all_events AS (
   -- Union all event sources
